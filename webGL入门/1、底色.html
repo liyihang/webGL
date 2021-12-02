@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #canvas {
+      background-color: antiquewhite;
+    }
+  </style>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      const canvas = document.querySelector('#canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // 2d
+      // const gl = canvas.getContext('2d')
+      // 3d webgl
+      const gl = canvas.getContext('webgl');
+      // declare color
+      gl.clearColor(0, 219, 220, 1);
+      // clear
+      gl.clear(gl.COLOR_BUFFER_BIT);
+
+      // CSS 颜色
+      const rgbaColor = 'rgba(255,238,238,1)';
+      // 正则匹配颜色
+      const reg = RegExp(/\((.*)\)/);
+      // 获取颜色
+      const rgbaStr = reg.exec(rgbaColor)[1];
+      const rgba = rgbaStr.split(",").map(n=>parseInt(n))
+      const r = rgba[0]/255
+      const g = rgba[1]/255
+      const b = rgba[2]/255
+      const a = rgba[3]
+       // declare color
+       gl.clearColor(r, g, b, a);
+      // clear
+      gl.clear(gl.COLOR_BUFFER_BIT);
+    </script>
+  </body>
+</html>

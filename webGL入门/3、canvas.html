@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas 入门</title>
+</head>
+<style>
+  body{
+    padding: 0;
+    margin: 0;
+  }
+  #canvas{
+    height: 800px;
+    width: 800px;
+  }
+</style>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    /** @type {HTMLCanvasElement} */
+    const canvas = document.querySelector('#canvas')
+    const ctx = canvas.getContext('2d')
+    ctx.fillStyle='hotpink'
+    ctx.fillRect(30,30,300,100)
+
+
+  </script>
+</body>
+</html>

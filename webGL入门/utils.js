@@ -1,4 +1,4 @@
-function initShaders(gl,vsSource,fsSource){
+function initShaders(gl, vsSource, fsSource) {
   //创建程序对象
   const program = gl.createProgram();
   //建立着色对象
@@ -10,6 +10,10 @@ function initShaders(gl,vsSource,fsSource){
   gl.attachShader(program, fragmentShader);
   //连接webgl上下文对象和程序对象
   gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    var info = gl.getProgramInfoLog(program);
+    throw new Error('Could not compile WebGL program. \n\n' + info);
+  }
   //启动程序对象
   gl.useProgram(program);
   //将程序对象挂到上下文对象上
@@ -26,4 +30,4 @@ function loadShader(gl, type, source) {
   //返回着色器对象
   return shader;
 }
-export {initShaders}
+export { initShaders }

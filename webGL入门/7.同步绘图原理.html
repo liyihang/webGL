@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>canvas 入门</title>
+    <title>webGL点位控制</title>
   </head>
   <style>
     body {
       padding: 0;
       margin: 0;
     }
-    #canvas {
+    /* #canvas {
       height: 800px;
       width: 800px;
-    }
+    } */
   </style>
   <body>
     <canvas id="canvas"></canvas>
@@ -23,7 +23,7 @@
       attribute vec4 a_Position;
       void main() {
           gl_Position = a_Position;
-          gl_PointSize = 500.0;
+          gl_PointSize = 30.0;
       }
     </script>
     <!-- //片元着色器 -->
@@ -46,15 +46,40 @@
       // 初始化着色器
       initShaders(gl, vsSource, fsSource);
       // 设置attribute变量
-      const a_Position = gl.getAttribLocation (gl.program, 'a_Position');
+      const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+
       // 修改attribute变量
-      gl.vertexAttrib3f(a_Position, 0, 0.5, 0);
+      // gl.vertexAttrib2f(a_Position, -0.3, 0);
       // 指定将要用来清理绘图区的颜色
       gl.clearColor(0.0, 0.0, 0.0, 1.0);
       // 清理绘图区
       gl.clear(gl.COLOR_BUFFER_BIT);
+
+      // 存储定点数据数组
+      const points = [
+        { x: -0.3, y: 0 },
+        { x: 0.3, y: 0 },
+      ];
       // 绘制顶点
-      gl.drawArrays(gl.POINTS, 0, 1);
+      // gl.drawArrays(gl.POINTS, 0, 1);
+      // gl.vertexAttrib2f(a_Position, 0.3, 0);
+      // gl.drawArrays(gl.POINTS, 0, 1);
+      render();
+      setTimeout(() => {
+        // gl.vertexAttrib2f(a_Position, -0.2, 0);
+        // gl.drawArrays(gl.POINTS, 0, 1);
+        points.push({ x: 0, y: 0 });
+        render();
+      }, 1000);
+
+      // 渲染方法
+      function render() {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        points.forEach(({ x, y }) => {
+          gl.vertexAttrib2f(gl.a_Position, x, y);
+          gl.drawArrays(gl.POINTS, 0, 1);
+        });
+      }
     </script>
   </body>
 </html>

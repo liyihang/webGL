@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>修改定点颜色</title>
+  </head>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    /* #canvas {
+      height: 800px;
+      width: 800px;
+    } */
+  </style>
+  <body>
+    <canvas id="canvas"></canvas>
+    <!-- //顶点着色器 -->
+    <script id="vertexShader" type="x-shader/x-vertex">
+      attribute vec4 a_Position;
+      void main() {
+          gl_Position = a_Position;
+          gl_PointSize = 30.0;
+      }
+    </script>
+    <!-- //片元着色器 -->
+    <script id="fragmentShader" type="x-shader/x-fragment">
+      precision mediump float;
+      uniform vec4 u_FragColor;
+      void main() {
+          gl_FragColor = u_FragColor;
+      }
+    </script>
+    <script type="module">
+      import { initShaders } from './utils.js';
+      /** @type {HTMLCanvasElement} */
+      const canvas = document.getElementById('canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const gl = canvas.getContext('webgl');
+      // 顶点着色器
+      const vsSource = document.getElementById('vertexShader').innerText;
+      // 片元着色器
+      const fsSource = document.getElementById('fragmentShader').innerText;
+      // 初始化着色器
+      initShaders(gl, vsSource, fsSource);
+      // 设置attribute变量
+      const a_Position = gl.getAttribLocation (gl.program, 'a_Position');
+      const u_FragColor = gl.getUniformLocation(gl.program,'u_FragColor');
+      // 修改attribute变量
+      gl.vertexAttrib1f(a_Position, 0.1);
+     gl.uniform4f(u_FragColor,1.0,0,1.0,1.0);
+      // 绘制顶点
+      gl.drawArrays(gl.POINTS, 0, 1);
+    </script>
+  </body>
+</html>

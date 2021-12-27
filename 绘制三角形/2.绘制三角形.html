@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas 入门</title>
+  </head>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    #canvas {
+      height: 800px;
+      width: 800px;
+    }
+  </style>
+  <body>
+    <canvas id="canvas"></canvas>
+    <!-- //顶点着色器 -->
+    <script id="vertexShader" type="x-shader/x-vertex">
+      attribute vec4 a_Position;
+      void main() {
+          gl_Position = a_Position;
+          gl_PointSize = 500.0;
+      }
+    </script>
+    <!-- //片元着色器 -->
+    <script id="fragmentShader" type="x-shader/x-fragment">
+      void main() {
+          gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+      }
+    </script>
+    <script type="module">
+      import { initShaders } from '../js/Utils.js';
+      /** @type {HTMLCanvasElement} */
+      const canvas = document.getElementById('canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const gl = canvas.getContext('webgl');
+      // 顶点着色器
+      const vsSource = document.getElementById('vertexShader').innerText;
+      // 片元着色器
+      const fsSource = document.getElementById('fragmentShader').innerText;
+      // 初始化着色器
+      initShaders(gl, vsSource, fsSource);
+      // 三角形定点数据
+      const vertices = new Float32Array([0, 0, -0.1, -0.1, 0.1, 0.1]);
+      // 创建缓冲对象
+      const vertexBuffer = gl.createBuffer();
+      // 绑定缓冲对象
+      gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
+      // 往缓冲区写数据
+      gl.bufferData(gl.ARRAY_BUFFER,vertices,STATIC_DRAW);
+  
+      // 指定将要用来清理绘图区的颜色
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      // 清理绘图区
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      // 绘制顶点
+      gl.drawArrays(gl.POINTS, 0, 1);
+    </script>
+  </body>
+</html>

@@ -4,17 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>多点绘制</title>
+    <title>绘制三角面</title>
   </head>
   <style>
     body {
       padding: 0;
       margin: 0;
     }
-    /* #canvas {
-      height: 800px;
-      width: 800px;
-    } */
   </style>
   <body>
     <canvas id="canvas"></canvas>
@@ -23,7 +19,7 @@
       attribute vec4 a_Position;
       void main() {
           gl_Position = a_Position;
-          gl_PointSize = 50.0;
+
       }
     </script>
     <!-- //片元着色器 -->
@@ -47,7 +43,8 @@
       initShaders(gl, vsSource, fsSource);
       // 三角形定点数据
       const vertices = new Float32Array([
-        0, 0, -0.5, -0.5, 0.1,0.1,0.2,0.2,0.5, 0.5,
+        0,0.5,0,0
+        // 0,0.3,0.2,0.1,-0.2,-0.1,-0.4,0.3
       ]);
       // 创建缓冲对象
       const vertexBuffer = gl.createBuffer();
@@ -62,11 +59,11 @@
       // 传递数据
       gl.enableVertexAttribArray(a_Position);
       // 指定将要用来清理绘图区的颜色
-      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.clearColor(0.0, 0.1, 0.0, 1.0);
       // 清理绘图区
       gl.clear(gl.COLOR_BUFFER_BIT);
       // 绘制顶点
-      gl.drawArrays(gl.POINTS, 0, 5);
+      gl.drawArrays(gl.LINE_LOOP, 0, 2);
     </script>
   </body>
 </html>
